@@ -1,0 +1,49 @@
+.Toolbar {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  background: #703B09;
+  box-sizing: border-box;
+}
+
+@media (max-width: 499px) {
+  
+  .Hamburger {
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 5%;
+    background-color: #000000;
+  }
+  
+  .Hamburger::after,
+  .Hamburger::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 30px;
+    height: 100%;
+    background-color: #000000;
+    top: 6px;
+    left: 0;
+  }
+  
+  .Hamburger::after {
+    top: -6px;
+  }
+  
+  .DesktopOnly {
+    display: none;
+  }
+}
+/* 
+.Toolbar nav {
+  height: 100%;
+} */
