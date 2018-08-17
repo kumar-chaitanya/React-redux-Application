@@ -1,0 +1,27 @@
+.Orders {
+  width: 95%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.Order {
+  width: 100%;
+  box-shadow: 0 2px 3px #ccc;
+  margin: 12px auto;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.OrderItem {
+  background-color: rgb(245, 245, 245);
+  display: inline;
+  margin: 0 4px;
+  padding: 4px;
+  text-transform: capitalize;
+}
+
+@media (min-width: 600px) {
+  .Orders {
+    width: 500px;
+  }
+}
