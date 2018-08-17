@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'; 
 import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Button from '../../../components/UI/Button/Button';
@@ -203,4 +204,9 @@ class DeliveryForm extends Component {
   }
 }
 
-export default DeliveryForm;
+const mapStateToProps = state => ({
+  ingredients: state.ingredients,
+  totalPrice: state.totalPrice
+})
+
+export default connect(mapStateToProps)(DeliveryForm);
