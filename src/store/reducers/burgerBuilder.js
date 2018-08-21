@@ -1,4 +1,4 @@
-import * as actionTypes from './action';
+import * as actionTypes from '../actions/actionTypes';
 
 const INGREDIENT_PRICE = {
   salad: 0.20,
@@ -8,13 +8,9 @@ const INGREDIENT_PRICE = {
 };
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0
-  },
-  totalPrice: 0
+  ingredients: null,
+  totalPrice: 0,
+  error: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -37,6 +33,18 @@ const reducer = (state = initialState, action) => {
         },
         totalPrice: state.totalPrice - INGREDIENT_PRICE[action.igKey]
       };
+      case actionTypes.STORE_INGREDIENT: 
+        return {
+          ...state,
+          ingredients: { ...action.ingredients },
+          totalPrice: 0,
+          error: false
+        };
+      case actionTypes.SET_ERROR:
+        return {
+          ...state,
+          error: true
+        }
     default:
       return state;
   }

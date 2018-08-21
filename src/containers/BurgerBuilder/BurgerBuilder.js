@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/action';
+import * as actions from '../../store/actions';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
@@ -16,9 +16,7 @@ import errorHandler from '../../hoc/errorHandler/errorHandler';
 class BurgerBuilder extends Component {
   
   state = {
-    showModal: false,
-    loading: false,
-    error: false
+    showModal: false
   };
   
   updatePurchase = () => {
@@ -35,20 +33,9 @@ class BurgerBuilder extends Component {
     this.setState({ showModal: false });
   };
  
-  // async componentDidMount() {
-  //   try {
-  //     const response = await axios.get('/ingredients.json');
-  //     let purchasable = false;
-  //     for(let key in response.data) {
-  //       if(response.data[key])
-  //         purchasable = true;
-  //     }
-  //     this.setState({ ingredients: response.data, purchasable: purchasable });
-  //   } catch (error) {
-  //     console.log(error);
-  //     this.setState({ error: true });
-  //   }
-  // }
+  componentDidMount() {
+    this.props.ingredientFetch();
+  }
   
   render() {
     
@@ -57,7 +44,7 @@ class BurgerBuilder extends Component {
       disabledInfo[ingredient] = this.props.ingredients[ingredient] <= 0;
     }
     
-    let burger = this.state.error ? <p style={{ textAlign: 'center' }}>Sorry Something Went Wrong!</p> : <Spinner />;
+    let burger = this.props.error ? <p style={{ textAlign: 'center' }}>Sorry Something Went Wrong!</p> : <Spinner />;
     let orderSummary = null;
 
     if(this.props.ingredients) {
@@ -83,9 +70,6 @@ class BurgerBuilder extends Component {
       );
     }
 
-    if(this.state.loading)
-      orderSummary = <Spinner />;
-
     return (
       <Fragment>
         <Modal show={this.state.showModal} hideModal={this.hideModalHandler}>
@@ -98,13 +82,15 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice
+  ingredients: state.burger.ingredients,
+  totalPrice: state.burger.totalPrice,
+  error: state.burger.error
 });
 
 const mapDispatchToProps = dispatch => ({
-  ingredientAdd: (igKey) => dispatch({ type: actionTypes.ADD_INGREDIENT, igKey: igKey }),
-  ingredientRemove: (igKey) => dispatch({ type: actionTypes.REMOVE_INGREDIENT, igKey: igKey })
+  ingredientAdd: (igKey) => dispatch(actions.addIngredient(igKey)),
+  ingredientRemove: (igKey) => dispatch(actions.removeIngredient(igKey)),
+  ingredientFetch: () => dispatch(actions.fetchIngredient())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(BurgerBuilder, axios));

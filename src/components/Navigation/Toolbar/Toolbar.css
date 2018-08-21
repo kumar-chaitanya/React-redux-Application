@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+.Hamburger {
+  display: none;
+}
+
 @media (max-width: 499px) {
   
   .Hamburger {

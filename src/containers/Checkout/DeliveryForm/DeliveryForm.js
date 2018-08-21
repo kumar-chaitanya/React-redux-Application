@@ -4,6 +4,8 @@ import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Button from '../../../components/UI/Button/Button';
 import Input from '../../../components/UI/Input/Input';
+import errorHandler from '../../../hoc/errorHandler/errorHandler';
+import * as actions from '../../../store/actions';
 import classes from './DeliveryForm.css';
 
 class DeliveryForm extends Component {
@@ -92,8 +94,7 @@ class DeliveryForm extends Component {
         valid: true
       }
     },
-    formIsValid: false,
-    loading: false
+    formIsValid: false
   }
 
   orderHandler = async (e) => {
@@ -108,14 +109,7 @@ class DeliveryForm extends Component {
       price: this.props.totalPrice.toFixed(2),
       orderData: formData
     };
-
-    try {
-      await axios.post('/orders.json', summary);
-      this.setState({ loading: false });
-      this.props.history.replace('/');
-    } catch (error) {
-      this.setState({ loading: false });
-    }
+    this.props.purchaseStart(summary, this.props.history);
   }
 
   checkValidity(value, rules) {
@@ -192,7 +186,7 @@ class DeliveryForm extends Component {
         <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -205,8 +199,13 @@ class DeliveryForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice
-})
+  ingredients: state.burger.ingredients,
+  totalPrice: state.burger.totalPrice,
+  loading: state.order.loading
+});
 
-export default connect(mapStateToProps)(DeliveryForm);
+const mapDispatchToProps = dispatch => ({
+  purchaseStart: (orderData, history) => dispatch(actions.purchaseStart(orderData, history))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(DeliveryForm, axios));
