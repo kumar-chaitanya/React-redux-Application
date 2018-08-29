@@ -19,7 +19,7 @@ const Sidedrawer = (props) => {
           <Logo />
         </div>
         <nav>
-          <NavItems />
+          <NavItems authenticated={props.authenticated} />
         </nav>
       </div>
     </Fragment>

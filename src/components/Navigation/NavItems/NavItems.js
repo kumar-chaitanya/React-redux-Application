@@ -6,7 +6,11 @@ const NavItems = (props) => {
   return (
     <ul className={classes.NavItems}>
       <NavItem link="/">BurgerBuilder</NavItem>
-      <NavItem link="/orders">Orders</NavItem>      
+      {props.authenticated ? <NavItem link="/orders">Orders</NavItem> : null}
+      {!props.authenticated ?
+        <NavItem link="/auth">Authenticate</NavItem> :
+        <NavItem link="/logout">Logout</NavItem>
+      }      
     </ul>
   );
 }

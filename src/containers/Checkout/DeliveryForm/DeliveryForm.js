@@ -107,9 +107,10 @@ class DeliveryForm extends Component {
     const summary = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice.toFixed(2),
-      orderData: formData
+      orderData: formData,
+      userId: this.props.userId
     };
-    this.props.purchaseStart(summary, this.props.history);
+    this.props.purchaseStart(summary, this.props.history, this.props.token);
   }
 
   checkValidity(value, rules) {
@@ -201,11 +202,13 @@ class DeliveryForm extends Component {
 const mapStateToProps = state => ({
   ingredients: state.burger.ingredients,
   totalPrice: state.burger.totalPrice,
-  loading: state.order.loading
+  loading: state.order.loading,
+  token: state.auth.idToken,
+  userId: state.auth.userId
 });
 
 const mapDispatchToProps = dispatch => ({
-  purchaseStart: (orderData, history) => dispatch(actions.purchaseStart(orderData, history))
+  purchaseStart: (orderData, history, token) => dispatch(actions.purchaseStart(orderData, history, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(DeliveryForm, axios));

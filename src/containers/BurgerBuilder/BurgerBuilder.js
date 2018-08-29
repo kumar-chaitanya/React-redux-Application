@@ -26,7 +26,9 @@ class BurgerBuilder extends Component {
   };
   
   showModalHandler = () => {
-    this.setState({ showModal: true });
+    if(this.props.isAuthenticated)
+     return this.setState({ showModal: true });
+    this.props.history.push('/auth');
   };
   
   hideModalHandler = () => {
@@ -57,7 +59,8 @@ class BurgerBuilder extends Component {
             price={this.props.totalPrice}
             disabled={disabledInfo}
             disableOrder={this.updatePurchase()}
-            showModal={this.showModalHandler} />
+            showModal={this.showModalHandler}
+            authenticated={this.props.isAuthenticated} />
         </Fragment>
       );
 
@@ -84,7 +87,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => ({
   ingredients: state.burger.ingredients,
   totalPrice: state.burger.totalPrice,
-  error: state.burger.error
+  error: state.burger.error,
+  isAuthenticated: state.auth.idToken !== null
 });
 
 const mapDispatchToProps = dispatch => ({

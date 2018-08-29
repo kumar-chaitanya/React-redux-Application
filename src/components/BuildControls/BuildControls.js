@@ -31,7 +31,7 @@ const BuildControls = (props) => {
           transform: 'translateX(-50%)'
         }}
         disabled={!props.disableOrder}
-        onClick={props.showModal}>Order Now</button>
+        onClick={props.showModal}>{props.authenticated ? 'Order Now' : 'SIGIN Or SIGNUP To Order'}</button>
     </Fragment>
   );
 }
